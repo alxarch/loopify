@@ -1,0 +1,24 @@
+{
+  "name": "loopify",
+  "version": "0.1.0",
+  "description": "Loop a function",
+  "main": "index.js",
+  "scripts": {
+    "prepublish": "rm -rf lib/ && ./node_modules/coffee-script/bin/coffee -c -b -o lib/ src/",
+    "test": "./node_modules/mocha/bin/mocha --compilers=coffee:coffee-script/register --recursive test/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gist.github.com/f1ba5dd85866fa435b70.git"
+  },
+  "author": "Alexandros Sigalas <alxarch@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gist.github.com/f1ba5dd85866fa435b70"
+  },
+  "homepage": "https://gist.github.com/f1ba5dd85866fa435b70",
+  "devDependencies": {
+    "coffee-script": "^1.10.0",
+    "mocha": "^2.3.3"
+  }
+}

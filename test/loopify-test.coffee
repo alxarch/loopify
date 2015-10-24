@@ -1,6 +1,6 @@
 describe "loopify", ->
 	assert = require "assert"
-	loopify = require "./loopify"
+	loopify = require "../src/index"
 	it "Cancels loops", ->
 		sum = 0
 		p = loopify ->
