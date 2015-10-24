@@ -1,30 +1,29 @@
-module.exports = loopify = ([condition, sleep]..., action) ->
-	unless "function" is typeof condition
-		sleep ?= +condition
-		condition = -> yes
+module.exports = loopify = ([sleep]..., action) ->
 	unless "function" is typeof action
 		throw new TypeError "Invalid callback"
 
 	sleep = +sleep
 	handle = null
 	start = -Infinity
+	stop = no
 	promise = new Promise (resolve, reject) ->
 		_loop = ->
-			return resolve() unless condition()
+			return resolve() if stop
 			try
 				p = Promise.resolve action()
 			catch err
-				return reject err
+				return if err? then reject(err) else resolve()
 			p.then ->
-				now = new Date().getTime()
-				timeout = start + sleep - now
-				start = now
-				handle = setTimeout _loop, if timeout > 0 then timeout else 0
+				if sleep > 0
+					now = new Date().getTime()
+					timeout = start + sleep - now
+					start = now
+					handle = setTimeout _loop, if timeout > 0 then timeout else 0
+				else
+					handle = setTimeout _loop, 0
 			p.catch (err) -> reject err
-		promise.cancellable()
-		_cancel = promise.cancel
-		promise.cancel = ->
-			condition = -> no
-			clearTimeout handle
-			_cancel.call promise
 		do _loop
+	promise.cancel = ->
+		stop = yes
+		clearTimeout handle
+	promise
