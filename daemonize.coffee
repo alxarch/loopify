@@ -1,4 +1,4 @@
-daemonize: (sleep, callback) ->
+module.exports = daemonize = (sleep, callback) ->
 		unless "function" is typeof callback
 			throw new TypeError "Invalid callback"
 
